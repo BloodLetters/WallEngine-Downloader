@@ -47,7 +47,7 @@ jobs:
 
     - name: Compile app.py to app.exe
       run: |
-        pyinstaller --noconsole --onefile app.py
+        pyinstaller --clean --noconsole --onefile app.py
 
     - name: Debug List dist folder
       run: ls
