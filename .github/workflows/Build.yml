@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout code
@@ -22,9 +22,6 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller rarfile
 
-    - name: Install unrar
-      run: sudo apt-get update && sudo apt-get install -y unrar
-
     - name: Download Release.rar from DepotDownloaderMod
       run: |
         curl -L -o Release.rar "https://github.com/SteamAutoCracks/DepotDownloaderMod/releases/latest/download/Release.rar"
@@ -32,9 +29,10 @@ jobs:
     - name: Extract Release.rar
       run: |
         mkdir extracted
-        unrar x -y Release.rar extracted/
+        tar -xf Release.rar -C extracted || powershell -Command "Expand-Archive -Path Release.rar -DestinationPath extracted"
 
     - name: Copy DepotDownloaderMod files to DepotDownloaderMod/
+      shell: bash
       run: |
         set -e
         DEPOT=$(find extracted -name "DepotDownloaderMod.exe" | head -n 1)
@@ -48,15 +46,14 @@ jobs:
 
     - name: Compile app.py to app.exe
       run: |
-        pyinstaller --clean --noconsole --onefile app.py
-        mv dist/app dist/app.exe  # Rename result to app.exe
-
-    - name: Debug List dist folder
-      run: ls -l dist
+        pyinstaller --clean --noconsole --onefile --name app app.py
 
     - name: Prepare WallE-Downloader.zip
       run: |
-        zip -r WallE-Downloader.zip dist/app.exe DepotDownloaderMod/
+        mkdir WallE-Downloader
+        copy dist\app.exe WallE-Downloader\
+        xcopy DepotDownloaderMod WallE-Downloader\DepotDownloaderMod /E /I /Y
+        powershell -Command "Compress-Archive -Path WallE-Downloader -DestinationPath WallE-Downloader.zip"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
