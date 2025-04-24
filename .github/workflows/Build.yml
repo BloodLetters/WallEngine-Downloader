@@ -1,0 +1,67 @@
+name: Build and Package WallE-Downloader
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Install dependencies
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller rarfile
+
+    # Step 3: Download Release.rar
+    - name: Download Release.rar
+      run: |
+        curl -L -o Release.rar "https://github.com/SteamAutoCracks/DepotDownloaderMod/releases/latest/download/Release.rar"
+
+    # Step 4: Extract Release.rar
+    - name: Extract Release.rar
+      run: |
+        sudo apt-get update && sudo apt-get install -y unrar
+        mkdir extracted
+        unrar x Release.rar extracted/
+
+    # Step 5: Check for DepotDownloaderMod.exe and copy files
+    - name: Check and copy DepotDownloaderMod.exe
+      run: |
+        DEPOT_DOWNLOADER=$(find extracted -name "DepotDownloaderMod.exe" | head -n 1)
+        if [ -z "$DEPOT_DOWNLOADER" ]; then
+          echo "DepotDownloaderMod.exe not found!"
+          exit 1
+        fi
+        DEPOT_DIR=$(dirname "$DEPOT_DOWNLOADER")
+        cp -r "$DEPOT_DIR"/* .
+
+    # Step 6: Compile app.py to app.exe
+    - name: Compile app.py to app.exe
+      run: |
+        pyinstaller --noconsole --onefile app.py
+
+    # Step 7: Package the compiled app into a ZIP file
+    - name: Create WallE-Downloader.zip
+      run: |
+        zip -r WallE-Downloader.zip dist/app.exe
+
+    # Step 8: Upload the ZIP file as a GitHub Action artifact
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: WallE-Downloader
+        path: WallE-Downloader.zip
