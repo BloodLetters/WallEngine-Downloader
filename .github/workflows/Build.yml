@@ -1,9 +1,6 @@
 name: Build and Package WallE-Downloader
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -62,7 +59,7 @@ jobs:
 
     # Step 8: Upload the ZIP file as a GitHub Action artifact
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: WallE-Downloader
         path: WallE-Downloader.zip
