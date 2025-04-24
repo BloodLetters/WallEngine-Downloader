@@ -50,7 +50,7 @@ jobs:
         pyinstaller --noconsole --onefile app.py
 
     - name: Debug List dist folder
-      run: ls -l dist
+      run: ls
 
     - name: Prepare WallE-Downloader.zip
       run: |
