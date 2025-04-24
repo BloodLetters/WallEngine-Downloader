@@ -34,7 +34,7 @@ jobs:
         mkdir extracted
         unrar x -y Release.rar extracted/
 
-    - name: Copy DepotDownloaderMod files to project root
+    - name: Copy DepotDownloaderMod files to DepotDownloaderMod/
       run: |
         set -e
         DEPOT=$(find extracted -name "DepotDownloaderMod.exe" | head -n 1)
@@ -43,18 +43,20 @@ jobs:
           exit 1
         fi
         DEPOT_DIR=$(dirname "$DEPOT")
-        cp -r "$DEPOT_DIR"/* .
+        mkdir -p DepotDownloaderMod
+        cp -r "$DEPOT_DIR"/* DepotDownloaderMod/
 
     - name: Compile app.py to app.exe
       run: |
         pyinstaller --clean --noconsole --onefile app.py
+        mv dist/app dist/app.exe  # Rename result to app.exe
 
     - name: Debug List dist folder
-      run: ls
+      run: ls -l dist
 
     - name: Prepare WallE-Downloader.zip
       run: |
-        zip -r WallE-Downloader.zip dist/*
+        zip -r WallE-Downloader.zip dist/app.exe DepotDownloaderMod/
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
