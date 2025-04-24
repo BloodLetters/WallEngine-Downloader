@@ -53,8 +53,23 @@ jobs:
         copy dist\app.exe .\
         powershell -Command "Compress-Archive -Path app.exe, DepotDownloaderMod -DestinationPath WallE-Downloader.zip"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    # - name: Upload artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: WallE-Downloader
+    #     path: WallE-Downloader.zip
+
+    - name: Extract APP_VERSION from app.py
+      id: get_version
+      run: |
+        $version = Select-String -Path "app.py" -Pattern 'APP_VERSION\s*=\s*"([^"]+)"' | ForEach-Object { $_.Matches[0].Groups[1].Value }
+        echo "APP_VERSION=$version" >> $env:GITHUB_ENV
+
+    - name: Create Release and Upload Asset
+      uses: softprops/action-gh-release@v1
       with:
-        name: WallE-Downloader
-        path: WallE-Downloader.zip
+        name: WallE-Downloader v${{ env.APP_VERSION }}
+        tag_name: v${{ env.APP_VERSION }}
+        files: WallE-Downloader.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
