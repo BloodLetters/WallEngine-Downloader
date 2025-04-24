@@ -49,12 +49,12 @@ jobs:
 
     - name: Compile app.py to app.exe
       run: |
-        pyinstaller --clean --noconsole --onefile --name app app.py
+        pyinstaller --clean --noconsole --onefile --icon=Assets/icon.png --name WallEngine app.py
 
     - name: Prepare WallE-Downloader.zip
       run: |
-        copy dist\app.exe .\
-        powershell -Command "Compress-Archive -Path app.exe, DepotDownloaderMod -DestinationPath WallE-Downloader.zip"
+        copy dist\WallEngine.exe .\
+        powershell -Command "Compress-Archive -Path WallEngine.exe, DepotDownloaderMod, Assets -DestinationPath WallE-Downloader.zip"
 
     # - name: Upload artifact
     #   uses: actions/upload-artifact@v4

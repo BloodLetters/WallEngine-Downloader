@@ -11,8 +11,9 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QH
                             QComboBox, QDialog, QListWidget, QListWidgetItem)
 from PyQt5.QtGui import QFont, QPalette, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QThread
+from PyQt5 import QtGui
 
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.0.1"
 accounts = {
     'ruiiixx': 'UzY3R0JUQjgzRDNZ',
     'premexilmenledgconis': 'M3BYYkhaSmxEYg==',
@@ -34,6 +35,7 @@ class AccountSelectionDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Select Account")
+        self.setWindowIcon(QtGui.QIcon("Assets/icon.png"))
         self.setMinimumWidth(300)
         self.layout = QVBoxLayout()
 
@@ -128,7 +130,8 @@ class WallpaperDownloaderGUI(QMainWindow):
         self.apply_theme(self.config.get("theme", "system"))
         
     def init_ui(self):
-        self.setWindowTitle("Wallpaper Engine Downloader")
+        self.setWindowTitle("WallEngine")
+        self.setWindowIcon(QtGui.QIcon("Assets/icon.png"))
         self.setMinimumSize(1000, 700)
         
         main_widget = QWidget()
