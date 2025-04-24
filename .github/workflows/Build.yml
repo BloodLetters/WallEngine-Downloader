@@ -50,10 +50,8 @@ jobs:
 
     - name: Prepare WallE-Downloader.zip
       run: |
-        mkdir WallE-Downloader
-        copy dist\app.exe WallE-Downloader\
-        xcopy DepotDownloaderMod WallE-Downloader\DepotDownloaderMod /E /I /Y
-        powershell -Command "Compress-Archive -Path WallE-Downloader -DestinationPath WallE-Downloader.zip"
+        copy dist\app.exe .\
+        powershell -Command "Compress-Archive -Path app.exe, DepotDownloaderMod -DestinationPath WallE-Downloader.zip"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
