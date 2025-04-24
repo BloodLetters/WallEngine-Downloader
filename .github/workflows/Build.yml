@@ -54,7 +54,7 @@ jobs:
         zip -r WallE-Downloader.zip dist/app.exe
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4
       with:
         name: WallE-Downloader
         path: WallE-Downloader.zip
