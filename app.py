@@ -3,15 +3,14 @@ import os
 import re
 import subprocess
 import base64
-import threading
 import webbrowser
 import json
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
                             QLabel, QPushButton, QTextEdit, QLineEdit, QFileDialog, 
-                            QTabWidget, QFrame, QStackedWidget, QSplitter, QMessageBox,
+                            QFrame, QStackedWidget, QMessageBox,
                             QComboBox, QDialog, QListWidget, QListWidgetItem)
-from PyQt5.QtGui import QIcon, QFont, QColor, QPalette, QPixmap
-from PyQt5.QtCore import Qt, QSize, pyqtSignal, QThread
+from PyQt5.QtGui import QFont, QPalette, QPixmap
+from PyQt5.QtCore import Qt, pyqtSignal, QThread
 
 APP_VERSION = "1.0.0"
 accounts = {
