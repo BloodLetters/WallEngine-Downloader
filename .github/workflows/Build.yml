@@ -49,7 +49,7 @@ jobs:
 
     - name: Compile app.py to app.exe
       run: |
-        pyinstaller --clean --noconsole --onefile --icon=Assets/icon.png --name WallEngine app.py
+        pyinstaller --clean --noconsole --onefile --icon=Assets/icon.ico --name WallEngine app.py
 
     - name: Prepare WallE-Downloader.zip
       run: |

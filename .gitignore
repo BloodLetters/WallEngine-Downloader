@@ -1,2 +1,5 @@
 DepotDownloaderMod/
 config.json
+Backup/
+pages/__pycache__
+__pycache__/app.cpython-312.pyc
