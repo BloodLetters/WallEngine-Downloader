@@ -6,7 +6,7 @@ from pages.shared_components import SidebarButton
 
 class Sidebar(QWidget):
     """Sidebar for navigation between application pages"""
-    # Signal to notify when page should be changed
+    
     page_changed = pyqtSignal(str)
     
     def __init__(self, parent=None):
@@ -21,10 +21,10 @@ class Sidebar(QWidget):
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
         
-        # Create app title section
+        
         self.create_app_title()
         
-        # Add separator
+        
         separator = QFrame()
         separator.setFrameShape(QFrame.HLine)
         separator.setFrameShadow(QFrame.Sunken)
@@ -32,12 +32,12 @@ class Sidebar(QWidget):
         
         self.layout.addSpacing(20)
         
-        # Create navigation buttons
+        
         self.create_nav_buttons()
         
         self.layout.addStretch()
         
-        # Create footer
+        
         self.create_footer()
         
     def create_app_title(self):
@@ -46,11 +46,11 @@ class Sidebar(QWidget):
         app_title_layout = QHBoxLayout(app_title)
         app_title_layout.setContentsMargins(20, 20, 20, 20)
         
-        # Add logo
+        
         logo_label = QLabel()
         logo_label.setPixmap(QPixmap("Assets/icon.png").scaled(30, 30, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         
-        # Add title text
+        
         title_label = QLabel("Wallpaper Engine")
         title_label.setFont(QFont("Segoe UI", 12, QFont.Bold))
         
@@ -63,16 +63,19 @@ class Sidebar(QWidget):
     def create_nav_buttons(self):
         """Create navigation buttons for sidebar"""
         self.downloader_btn = SidebarButton("Downloader")
+        self.wallpaper_btn = SidebarButton("My Wallpaper")  
         self.workshop_btn = SidebarButton("Steam Workshop")
         self.config_btn = SidebarButton("Config")
         
-        # Connect button signals
+        
         self.downloader_btn.clicked.connect(lambda: self.page_changed.emit("downloader"))
+        self.wallpaper_btn.clicked.connect(lambda: self.page_changed.emit("mywallpaper"))  
         self.workshop_btn.clicked.connect(self.open_steam_workshop)
         self.config_btn.clicked.connect(lambda: self.page_changed.emit("config"))
         
-        # Add buttons to layout
+        
         self.layout.addWidget(self.downloader_btn)
+        self.layout.addWidget(self.wallpaper_btn)
         self.layout.addWidget(self.workshop_btn)
         self.layout.addWidget(self.config_btn)
         
@@ -81,12 +84,12 @@ class Sidebar(QWidget):
         footer = QWidget()
         footer_layout = QVBoxLayout(footer)
         
-        # Version info label
+        
         version_label = QLabel(f"Version {self.main_window.APP_VERSION}")
         version_label.setAlignment(Qt.AlignCenter)
         version_label.setFont(QFont("Segoe UI", 8))
         
-        # Made with love label
+        
         made_with_love = QLabel("Made with ❤️")
         made_with_love.setAlignment(Qt.AlignCenter)
         made_with_love.setFont(QFont("Segoe UI", 8))
@@ -100,6 +103,7 @@ class Sidebar(QWidget):
     def set_active_button(self, button_name):
         """Set the active button in the sidebar"""
         self.downloader_btn.setChecked(button_name == "downloader")
+        self.wallpaper_btn.setChecked(button_name == "mywallpaper")
         self.workshop_btn.setChecked(button_name == "workshop")
         self.config_btn.setChecked(button_name == "config")
         
@@ -157,7 +161,8 @@ class Sidebar(QWidget):
                 }
             """
         
-        # Apply style to all buttons
+        # Apply style
         self.downloader_btn.setStyleSheet(button_style)
+        self.wallpaper_btn.setStyleSheet(button_style)
         self.workshop_btn.setStyleSheet(button_style)
         self.config_btn.setStyleSheet(button_style)

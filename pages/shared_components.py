@@ -71,15 +71,12 @@ class AccountSelectionDialog(QDialog):
         self.setMinimumWidth(300)
         self.layout = QVBoxLayout()
 
-        # Create account list
         self.account_list = QListWidget()
         for account in ACCOUNTS.keys():
             item = QListWidgetItem(account)
             self.account_list.addItem(item)
         
         self.layout.addWidget(self.account_list)
-        
-        # Create select button
         self.select_button = QPushButton("Select")
         self.select_button.clicked.connect(self.accept)
         self.layout.addWidget(self.select_button)

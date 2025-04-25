@@ -15,16 +15,9 @@ class WorkshopPage(QWidget):
         self.layout = QVBoxLayout(self)
         self.layout.setContentsMargins(20, 20, 20, 20)
         
-        # Create header
         self.create_header()
-        
-        # Create workshop browser button
         self.create_browser_button()
-        
-        # Create featured items section (placeholder)
         self.create_featured_section()
-        
-        # Add stretch to push everything to the top
         self.layout.addStretch()
         
     def create_header(self):
@@ -55,12 +48,12 @@ class WorkshopPage(QWidget):
         featured_info = QLabel("This section would display featured items from the workshop.")
         self.layout.addWidget(featured_info)
         
-        # Placeholder for future implementation of featured items list
+        
         self.featured_list = QListWidget()
         self.featured_list.setMaximumHeight(200)
         self.layout.addWidget(self.featured_list)
         
-        # Add some placeholder items
+        
         placeholder_items = [
             "Featured Wallpaper 1",
             "Featured Wallpaper 2",
@@ -78,5 +71,5 @@ class WorkshopPage(QWidget):
         
     def apply_theme(self, is_dark_theme):
         """Apply theme to workshop page"""
-        # No specific styling needed for this page beyond what's in the main app
+        
         pass

@@ -10,13 +10,14 @@ from PyQt5 import QtGui
 from pages.downloader import DownloaderPage
 from pages.config import ConfigPage
 from pages.sidebar import Sidebar
+from pages.mywallpaper import MyWallpaperPage
 
-APP_VERSION = "1.0.1"
+APP_VERSION = "1.0.8"
 
 DEFAULT_CONFIG = {
     "save_location": "",
-    "selected_account": "ruiiixx",  # Default account
-    "theme": "dark"  # Can be "dark", "light", or "system"
+    "selected_account": "ruiiixx",  # Default acc
+    "theme": "dark"  # "dark", "light", or "system"
 }
 
 class WallpaperEngineApp(QMainWindow):
@@ -45,6 +46,14 @@ class WallpaperEngineApp(QMainWindow):
         self.APP_VERSION = APP_VERSION
         self.sidebar = Sidebar(self)
         
+        self.downloader_page = DownloaderPage(self)
+        self.wallpaper_page = MyWallpaperPage(self)  # <--- Tambahkan ini
+        self.config_page = ConfigPage(self)
+        # Add pages to stacked widget
+        self.stacked_widget.addWidget(self.downloader_page)
+        self.stacked_widget.addWidget(self.wallpaper_page)  # <--- Tambahkan ini
+        self.stacked_widget.addWidget(self.config_page)
+
         # Create pages
         self.downloader_page = DownloaderPage(self)
         self.config_page = ConfigPage(self)
@@ -77,6 +86,8 @@ class WallpaperEngineApp(QMainWindow):
             self.show_downloader_page()
         elif page_name == "config":
             self.show_config_page()
+        elif page_name == "mywallpaper":  # <--- Tambahkan ini
+            self.show_wallpaper_page()
         
     def load_config(self):
         try:
@@ -94,6 +105,10 @@ class WallpaperEngineApp(QMainWindow):
         except Exception as e:
             print(f"Error saving config: {e}")
     
+    def show_wallpaper_page(self):
+        self.stacked_widget.setCurrentWidget(self.wallpaper_page)
+        self.sidebar.set_active_button("mywallpaper")
+
     def apply_theme(self, theme_name):
         """Apply the selected theme to the application"""
         

@@ -14,26 +14,12 @@ class ConfigPage(QWidget):
         """Set up the configuration page UI"""
         self.layout = QVBoxLayout(self)
         self.layout.setContentsMargins(20, 20, 20, 20)
-        
-        # Create header
         self.create_header()
-        
-        # Create save location section
         self.create_save_location_section()
-        
-        # Create theme selection section
         self.create_theme_section()
-        
-        # Create save button
         self.create_save_button()
-        
-        # Create status area
         self.create_status_area()
-        
-        # Add stretch to push everything to the top
         self.layout.addStretch()
-        
-        # Load existing configuration
         self.load_config_values()
         
     def create_header(self):
@@ -102,10 +88,7 @@ class ConfigPage(QWidget):
 
     def load_config_values(self):
         """Load configuration values from the main application config"""
-        # Set save location
         self.save_location_edit.setText(self.main_window.config.get("save_location", ""))
-        
-        # Set theme selection
         theme_mapping = {"system": 0, "dark": 1, "light": 2}
         self.theme_combo.setCurrentIndex(theme_mapping.get(self.main_window.config.get("theme", "system"), 0))
     
@@ -154,24 +137,17 @@ class ConfigPage(QWidget):
         location = self.save_location_edit.text()
         is_valid = self.validate_save_location()
         
-        # Update config values
         self.main_window.config["save_location"] = location
-        
-        # Get theme from combo box
         theme_index = self.theme_combo.currentIndex()
         theme_values = ["system", "dark", "light"]
         self.main_window.config["theme"] = theme_values[theme_index]
         
-        # Apply theme to application
         self.main_window.apply_theme(self.main_window.config["theme"])
-        
-        # Save to file
         self.main_window.save_config()
-        
+
         if is_valid:
             self.directory_status.setText("Configuration saved successfully")
     
     def apply_theme(self, is_dark_theme):
         """Apply theme to the config page"""
-        # No specific styling needed for this page beyond what's in the main app
         pass

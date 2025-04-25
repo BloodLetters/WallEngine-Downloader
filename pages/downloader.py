@@ -25,27 +25,19 @@ class DownloadThread(QThread):
     
     def run(self):
         """Run the download process"""
-        # Create the save directory path
         save_dir = os.path.join(self.save_location, "projects", "myprojects", self.wallpaper_id)
         
-        # Log the download start
         self.update_signal.emit(f"\n--- Downloading {self.wallpaper_id} ---")
         self.update_signal.emit(f"Username: {self.username}")
         self.update_signal.emit(f"Save to: {save_dir}\n")
         
-        # Prepare the download command
         dir_option = f"-dir \"{save_dir}\""
         command = f"DepotdownloaderMod\\DepotDownloadermod.exe -app 431960 -pubfile {self.wallpaper_id} -verify-all -username {self.username} -password {PASSWORDS[self.username]} {dir_option}"
         
         try:
-            # Execute the download command
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
-            
-            # Stream output from the command
             for line in process.stdout:
                 self.update_signal.emit(line.strip())
-            
-            # Wait for process to complete
             process.wait()
             self.update_signal.emit(f"\n--- Download finished for {self.wallpaper_id} ---\n")
         except Exception as e:
@@ -63,19 +55,10 @@ class DownloaderPage(QWidget):
         self.layout = QVBoxLayout(self)
         self.layout.setContentsMargins(20, 20, 20, 20)
         
-        # Create header
         self.create_header()
-        
-        # Create input area for links
         self.create_links_input()
-        
-        # Create account selection area
         self.create_account_selector()
-        
-        # Create download button
         self.create_download_button()
-        
-        # Create console output area
         self.create_console_output()
         
     def create_header(self):
@@ -154,7 +137,6 @@ class DownloaderPage(QWidget):
         """Start the wallpaper download process"""
         save_location = self.main_window.config.get("save_location", "")
         
-        # Validate save location
         if not save_location:
             QMessageBox.warning(self, "Invalid Configuration", "Save location not set. Please configure it in the Config tab.")
             return
@@ -163,13 +145,11 @@ class DownloaderPage(QWidget):
             QMessageBox.warning(self, "Invalid Configuration", "Save location directory does not exist.")
             return
         
-        # Check for projects directory
         projects_dir = os.path.join(save_location, "projects")
         if not os.path.isdir(projects_dir):
             QMessageBox.warning(self, "Invalid Configuration", "Directory doesn't contain 'projects' folder. Invalid Wallpaper Engine directory.")
             return
         
-        # Check or create myprojects directory
         myprojects_dir = os.path.join(projects_dir, "myprojects")
         if not os.path.isdir(myprojects_dir):
             try:
@@ -179,7 +159,6 @@ class DownloaderPage(QWidget):
                 QMessageBox.warning(self, "Directory Error", f"Error creating 'myprojects' directory: {e}")
                 return
         
-        # Get account and links
         username = self.account_select.text()
         links_text = self.links_edit.toPlainText().strip()
         
@@ -187,7 +166,6 @@ class DownloaderPage(QWidget):
             QMessageBox.warning(self, "No Links", "No workshop links provided.")
             return
         
-        # Process links
         links = links_text.split('\n')
         self.console.append_text(f"Processing {len(links)} link(s)...")
         
