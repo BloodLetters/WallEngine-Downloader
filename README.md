@@ -7,6 +7,7 @@ WallEngine-Downloader is a simple GUI-based application for downloading wallpape
 - **Download Workshop Wallpapers**: Enter the Workshop URL, choose your download location, and grab wallpapers without Steam ownership restrictions.
 - **User-Friendly GUI**: No need to deal with command line tools—just point, click, and download.
 - **Automatic Extraction**: Downloaded wallpapers are extracted and ready to use right away in wallpaper engine program.
+- **Preview Downloaded wallpaper**: Check your downloaded wallpapers without openning wallpaper engine
 
 ## How It Works
 
@@ -22,7 +23,7 @@ For the easiest experience, use the pre-built executable from the [Releases tab]
 **DepotDownloaderMod is already included**—no need for manual setup.
 
 **Steps:**
-1. Download the latest release for your OS from the [Releases page](https://github.com/BloodLetters/WallEngine-Downloader/releases).
+1. Download the latest release from the [Releases page](https://github.com/BloodLetters/WallEngine-Downloader/releases).
 2. Extract the files.
 3. Run the `WallEngine-Downloader.exe`.
 4. Use the GUI to download wallpapers directly.
